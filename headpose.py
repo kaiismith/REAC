@@ -2,17 +2,18 @@ import cv2
 import mediapipe as mp
 import numpy as np
 from datetime import datetime
+import os
 
 ############## PARAMETERS #######################################################
 
 # Set these values to show/hide certain vectors of the estimation
 draw_gaze = True
 draw_full_axis = True
-draw_headpose = False
+draw_headpose = True
 
 # Gaze Score multiplier (Higher multiplier = Gaze affects headpose estimation more)
-x_score_multiplier = 2
-y_score_multiplier = 2
+x_score_multiplier = 1.5
+y_score_multiplier = 1.5
 
 # Threshold of how close scores should be to average between frames
 threshold = .3
@@ -24,7 +25,7 @@ face_mesh = mp_face_mesh.FaceMesh(static_image_mode=False,
     refine_landmarks=True,
     max_num_faces=2,
     min_detection_confidence=0.5)
-cap = cv2.VideoCapture(0)
+# cap = cv2.VideoCapture("CHEAT47.mp4")
 
 face_3d = np.array([
     [0.0, 0.0, 0.0],            # Nose tip
@@ -51,7 +52,18 @@ reye_3d[:,2] += 135
 last_lx, last_rx = 0, 0
 last_ly, last_ry = 0, 0
 
-while cap.isOpened():
+GAP = 6 # step in a second
+FILE_NAME = "CHEAT001"
+cap = cv2.VideoCapture(FILE_NAME + ".mp4")
+
+currentFrame = 0
+count = GAP
+
+fps = cap.get(cv2.CAP_PROP_FPS)
+totalFrame = cap.get(cv2.CAP_PROP_FRAME_COUNT)
+videoDuration = totalFrame // fps
+
+while cap.isOpened:
     success, img = cap.read()
 
     # Flip + convert img from BGR to RGB
@@ -206,10 +218,24 @@ while cap.isOpened():
     with open("l_axis.txt", "a") as file:
         file.write(f"[{datetime.now()}]: [{l_gaze_axis[0]} {l_gaze_axis[1]} {l_gaze_axis[2]}]\n")
 
-    cv2.imshow('Head Pose Estimation', img)
+    try:
+        if not os.path.exists(FILE_NAME):
+            os.makedirs(FILE_NAME)
 
+    except OSError:
+        print("Error: Creating data directory")
+
+    name = "./" + FILE_NAME + "/frame" + str(currentFrame) + ".jpg"
+
+    if currentFrame > count:
+        print ('Creating...' + name)
+        cv2.imwrite(name, img)
+        count += GAP    
+    
+    currentFrame += 1  
     if cv2.waitKey(5) & 0xFF == ord('q'):
         break
+
 
 cap.release()
 cv2.destroyAllWindows()
