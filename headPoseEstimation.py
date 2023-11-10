@@ -63,6 +63,14 @@ class headPoseEstimation:
         arrL = []
         arrHR = []
         arrHL = []
+
+        csv_file = "data.csv"
+        fields = ["Right Gaze", "Left Gaze", "Right HeadPose", "Left HeadPose"]
+
+        with open(csv_file, mode='a', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(fields)
+
         for FILE_NAME in self.FILE_NAMES:
             cap = cv2.VideoCapture(FILE_NAME + ".mp4")
 
