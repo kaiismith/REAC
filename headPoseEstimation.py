@@ -65,7 +65,7 @@ class headPoseEstimation:
         arrHL = []
 
         csv_file = "data.csv"
-        fields = ["Right Gaze", "Left Gaze", "Right HeadPose", "Left HeadPose"]
+        fields = ["Right Gaze", "Left Gaze", "Right HeadPose", "Left HeadPose", "Label"]
 
         with open(csv_file, mode='a', newline='') as file:
             writer = csv.writer(file)
@@ -269,8 +269,13 @@ class headPoseEstimation:
                 currentFrame += 1  
                 if cv2.waitKey(5) & 0xFF == ord('q'):
                     break
-
+            
             total = [arrR, arrL, arrHR, arrHL]
+
+            if FILE_NAME[:5] == "CHEAT":
+                total.append("1")
+            else:
+                total.append("0")
             
             csv_file = "data.csv"
 
