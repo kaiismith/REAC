@@ -247,22 +247,34 @@ class headPoseEstimation:
                     zR = math.sqrt((r_gaze_axis[2][0][0] - r_corner[0]) ** 2 + (r_gaze_axis[2][0][1] - r_corner[1]) ** 2)
                     if r_gaze_axis[2][0][0] < r_corner[0]:
                         zR = -zR
-                    arrR.append([r_gaze_axis[2][0][0] - r_corner[0], r_gaze_axis[2][0][1] - r_corner[1], zR])
+                    # arrR.append([r_gaze_axis[2][0][0] - r_corner[0], r_gaze_axis[2][0][1] - r_corner[1], zR])
+                    arrR.append(round(r_gaze_axis[2][0][0] - r_corner[0], 3))
+                    arrR.append(round(r_gaze_axis[2][0][1] - r_corner[1], 3))
+                    arrR.append(round(zR, 3))
 
                     zL = math.sqrt((l_gaze_axis[2][0][0] - l_corner[0]) ** 2 + (l_gaze_axis[2][0][1] - l_corner[1]) ** 2)
                     if l_gaze_axis[2][0][0] < l_corner[0]:
                         zL = -zL
-                    arrL.append([l_gaze_axis[2][0][0] - l_corner[0], l_gaze_axis[2][0][1] - l_corner[1], zL])
+                    # arrL.append([l_gaze_axis[2][0][0] - l_corner[0], l_gaze_axis[2][0][1] - l_corner[1], zL])
+                    arrL.append(round(l_gaze_axis[2][0][0] - l_corner[0], 3))
+                    arrL.append(round(l_gaze_axis[2][0][1] - l_corner[1], 3))
+                    arrL.append(round(zL, 3))
 
                     zHR = math.sqrt((r_axis[2][0][0] - r_corner[0]) ** 2 + (r_axis[2][0][1] - r_corner[1]) ** 2)
                     if r_axis[2][0][0] < r_corner[0]:
                         zHR = -zHR
-                    arrHR.append([r_axis[2][0][0] - r_corner[0], r_axis[2][0][1] - r_corner[1], zHR])
+                    # arrHR.append([r_axis[2][0][0] - r_corner[0], r_axis[2][0][1] - r_corner[1], zHR])
+                    arrHR.append(round(r_axis[2][0][0] - r_corner[0], 3))
+                    arrHR.append(round(r_axis[2][0][1] - r_corner[1], 3))
+                    arrHR.append(round(zHR, 3))
 
                     zHL = math.sqrt((l_axis[2][0][0] - l_corner[0]) ** 2 + (l_axis[2][0][1] - l_corner[1]) ** 2)
                     if l_axis[2][0][0] < l_corner[0]:
                         zHL = -zHL
-                    arrHL.append([l_axis[2][0][0] - l_corner[0], l_axis[2][0][1] - l_corner[1], zHL])
+                    # arrHL.append([l_axis[2][0][0] - l_corner[0], l_axis[2][0][1] - l_corner[1], zHL])
+                    arrHL.append(round(l_axis[2][0][0] - l_corner[0], 3))
+                    arrHL.append(round(l_axis[2][0][1] - l_corner[1], 3))
+                    arrHL.append(round(zHL, 3))
 
                     count += self.GAP    
                 
