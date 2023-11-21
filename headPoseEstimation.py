@@ -7,9 +7,10 @@ import csv
 import math
 
 class headPoseEstimation:
-    def __init__(self, FILE_NAMES, GAP=6):
+    def __init__(self, FILE_NAMES, CSV_FILE, GAP=6):
         self.FILE_NAMES = FILE_NAMES
         self.GAP = GAP
+        self.CSV_FILE = CSV_FILE
 
     def run(self):
         ############## PARAMETERS #######################################################
@@ -64,8 +65,8 @@ class headPoseEstimation:
         arrHR = []
         arrHL = []
 
-        csv_file = "data.csv"
-        fields = ["Right Gaze", "Left Gaze", "Right HeadPose", "Left HeadPose", "Label"]
+        csv_file = self.CSV_FILE
+        fields = ["Video Title", "Right Gaze 1", "Right Gaze 2", "Left Gaze 1", "Left Gaze 2", "Right HeadPose 1", "Right HeadPose 2", "Left HeadPose 1", "Left HeadPose 2", "Label"]
 
         with open(csv_file, mode='a', newline='') as file:
             writer = csv.writer(file)
@@ -245,32 +246,32 @@ class headPoseEstimation:
                     # cv2.imwrite(name, img)
 
                     zR = math.sqrt((r_gaze_axis[2][0][0] - r_corner[0]) ** 2 + (r_gaze_axis[2][0][1] - r_corner[1]) ** 2)
-                    if r_gaze_axis[2][0][0] < r_corner[0]:
-                        zR = -zR
+                    # if r_gaze_axis[2][0][0] < r_corner[0]:
+                    #     zR = -zR
                     # arrR.append([r_gaze_axis[2][0][0] - r_corner[0], r_gaze_axis[2][0][1] - r_corner[1], zR])
                     arrR.append(round(r_gaze_axis[2][0][0] - r_corner[0], 3))
                     arrR.append(round(r_gaze_axis[2][0][1] - r_corner[1], 3))
                     arrR.append(round(zR, 3))
 
                     zL = math.sqrt((l_gaze_axis[2][0][0] - l_corner[0]) ** 2 + (l_gaze_axis[2][0][1] - l_corner[1]) ** 2)
-                    if l_gaze_axis[2][0][0] < l_corner[0]:
-                        zL = -zL
+                    # if l_gaze_axis[2][0][0] < l_corner[0]:
+                    #     zL = -zL
                     # arrL.append([l_gaze_axis[2][0][0] - l_corner[0], l_gaze_axis[2][0][1] - l_corner[1], zL])
                     arrL.append(round(l_gaze_axis[2][0][0] - l_corner[0], 3))
                     arrL.append(round(l_gaze_axis[2][0][1] - l_corner[1], 3))
                     arrL.append(round(zL, 3))
 
                     zHR = math.sqrt((r_axis[2][0][0] - r_corner[0]) ** 2 + (r_axis[2][0][1] - r_corner[1]) ** 2)
-                    if r_axis[2][0][0] < r_corner[0]:
-                        zHR = -zHR
+                    # if r_axis[2][0][0] < r_corner[0]:
+                    #     zHR = -zHR
                     # arrHR.append([r_axis[2][0][0] - r_corner[0], r_axis[2][0][1] - r_corner[1], zHR])
                     arrHR.append(round(r_axis[2][0][0] - r_corner[0], 3))
                     arrHR.append(round(r_axis[2][0][1] - r_corner[1], 3))
                     arrHR.append(round(zHR, 3))
 
                     zHL = math.sqrt((l_axis[2][0][0] - l_corner[0]) ** 2 + (l_axis[2][0][1] - l_corner[1]) ** 2)
-                    if l_axis[2][0][0] < l_corner[0]:
-                        zHL = -zHL
+                    # if l_axis[2][0][0] < l_corner[0]:
+                    #     zHL = -zHL
                     # arrHL.append([l_axis[2][0][0] - l_corner[0], l_axis[2][0][1] - l_corner[1], zHL])
                     arrHL.append(round(l_axis[2][0][0] - l_corner[0], 3))
                     arrHL.append(round(l_axis[2][0][1] - l_corner[1], 3))
@@ -282,14 +283,19 @@ class headPoseEstimation:
                 if cv2.waitKey(5) & 0xFF == ord('q'):
                     break
             
-            total = [arrR, arrL, arrHR, arrHL]
+            # total = [FILE_NAME, arrR, arrL, arrHR, arrHL]
+            total = [FILE_NAME, 
+                     arrR[:len(arrR)//2], arrR[len(arrR)//2:], 
+                     arrL[:len(arrL)//2], arrL[len(arrL)//2:], 
+                     arrHR[:len(arrHR)//2], arrHR[len(arrHR)//2:],
+                     arrHL[:len(arrHL)//2], arrHL[len(arrHL)//2:]]
 
             if FILE_NAME[:5] == "CHEAT":
                 total.append("1")
             else:
                 total.append("0")
             
-            csv_file = "data.csv"
+            csv_file = self.CSV_FILE
 
             with open(csv_file, mode='a', newline='') as file:
                 writer = csv.writer(file)
