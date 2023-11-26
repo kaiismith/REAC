@@ -59,6 +59,8 @@ last_ly, last_ry = 0, 0
 currentFrame = 1
 count = 6
 frames_coor = []
+prediction_value = 0
+
 while cap.isOpened():
     success, img = cap.read()
 
@@ -251,14 +253,18 @@ while cap.isOpened():
             frames_coor.pop(0)
         
         prediction = model.predCheat([frames_coor])
-        if prediction[0][0] > prediction[0][1]:
-            print("cheat")
-        else:
-            print("non-cheat")
+        # if prediction[0][0] > prediction[0][1]:
+        #     print("cheat")
+        # else:
+        #     print("non-cheat")
+
+        prediction_value = prediction[0][0] * 100
+        
         
         count += 6  
 
     currentFrame += 1  
+    cv2.putText(img, f'Cheat Rate: {round(prediction_value, 3)}%', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
             
 
     cv2.imshow('Head Pose Estimation', img)
