@@ -258,7 +258,7 @@ while cap.isOpened():
         # else:
         #     print("non-cheat")
 
-        prediction_value = prediction[0][0] * 100
+        prediction_value = (prediction[0][0] - prediction[0][1]) * 100
         
         
         count += 6  
