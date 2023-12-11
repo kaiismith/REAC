@@ -27,7 +27,7 @@ face_mesh = mp_face_mesh.FaceMesh(static_image_mode=False,
     refine_landmarks=True,
     max_num_faces=1,
     min_detection_confidence=0.5)
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture("NON-CHEAT 201.mp4")
 
 face_3d = np.array([
     [0.0, 0.0, 0.0],            # Nose tip
@@ -76,6 +76,12 @@ while cap.isOpened():
     
     # Convert the color space from RGB to BGR
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+
+        # Resize the image to make it appear smaller
+    scale_percent = 50  # Adjust this value to change the scale
+    width = int(img.shape[1] * scale_percent / 100)
+    height = int(img.shape[0] * scale_percent / 100)
+    img = cv2.resize(img, (width, height))  
 
     (img_h, img_w, img_c) = img.shape
     face_2d = []
@@ -258,13 +264,17 @@ while cap.isOpened():
         # else:
         #     print("non-cheat")
 
-        prediction_value = (prediction[0][0] - prediction[0][1]) * 100 if prediction[0][0] > prediction[0][1] else 0
+        prediction_value = prediction[0][0] * 100
         
         
         count += 6  
 
     currentFrame += 1  
-    cv2.putText(img, f'Cheat Rate: {round(prediction_value, 3)}%', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
+
+    if prediction_value < 50:
+        cv2.putText(img, f'Cheat Rate: {round(prediction_value, 3)}%', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+    else:
+        cv2.putText(img, f'Cheat Rate: {round(prediction_value, 3)}%', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
             
 
     cv2.imshow('Head Pose Estimation', img)
