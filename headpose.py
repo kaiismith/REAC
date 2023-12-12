@@ -229,20 +229,20 @@ while cap.isOpened():
                 
     if currentFrame > count:
         zR = math.sqrt((r_gaze_axis[2][0][0] - r_corner[0]) ** 2 + (r_gaze_axis[2][0][1] - r_corner[1]) ** 2)
-        if r_gaze_axis[2][0][0] < r_corner[0]:
-            zR = -zR
+        # if r_gaze_axis[2][0][0] < r_corner[0]:
+        #     zR = -zR
 
         zL = math.sqrt((l_gaze_axis[2][0][0] - l_corner[0]) ** 2 + (l_gaze_axis[2][0][1] - l_corner[1]) ** 2)
-        if l_gaze_axis[2][0][0] < l_corner[0]:
-            zL = -zL
+        # if l_gaze_axis[2][0][0] < l_corner[0]:
+        #     zL = -zL
 
         zHR = math.sqrt((r_axis[2][0][0] - r_corner[0]) ** 2 + (r_axis[2][0][1] - r_corner[1]) ** 2)
-        if r_axis[2][0][0] < r_corner[0]:
-            zHR = -zHR
+        # if r_axis[2][0][0] < r_corner[0]:
+        #     zHR = -zHR
 
         zHL = math.sqrt((l_axis[2][0][0] - l_corner[0]) ** 2 + (l_axis[2][0][1] - l_corner[1]) ** 2)
-        if l_axis[2][0][0] < l_corner[0]:
-            zHL = -zHL
+        # if l_axis[2][0][0] < l_corner[0]:
+        #     zHL = -zHL
 
         frame_coor = [l_gaze_axis[2][0][0] - l_corner[0], l_gaze_axis[2][0][1] - l_corner[1], zL , 
                         r_gaze_axis[2][0][0] - r_corner[0], r_gaze_axis[2][0][1] - r_corner[1], zR ,
