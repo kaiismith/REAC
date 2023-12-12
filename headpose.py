@@ -2,15 +2,15 @@ import cv2
 import mediapipe as mp
 import numpy as np
 import math
-from deploy import GP038
+from deploy import GP046
 
-model = GP038()
+model = GP046()
 
 ############## PARAMETERS #######################################################
 
 # Set these values to show/hide certain vectors of the estimation
 draw_gaze = True
-draw_full_axis = True
+draw_full_axis = False
 draw_headpose = True
 
 # Gaze Score multiplier (Higher multiplier = Gaze affects headpose estimation more)
@@ -27,7 +27,7 @@ face_mesh = mp_face_mesh.FaceMesh(static_image_mode=False,
     refine_landmarks=True,
     max_num_faces=1,
     min_detection_confidence=0.5)
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture("CHEAT 119.mp4")
 
 face_3d = np.array([
     [0.0, 0.0, 0.0],            # Nose tip
@@ -44,7 +44,7 @@ leye_3d[:,0] += 225
 leye_3d[:,1] -= 175
 leye_3d[:,2] += 135
 
-print(leye_3d)
+# print(leye_3d)
 
 # Reposition right eye corner to be the origin
 reye_3d = np.array(face_3d)
@@ -57,7 +57,7 @@ last_lx, last_rx = 0, 0
 last_ly, last_ry = 0, 0
 
 currentFrame = 1
-count = 6
+count = 1
 frames_coor = []
 prediction_value = 0
 
@@ -251,8 +251,8 @@ while cap.isOpened():
         
         frames_coor.append(frame_coor)
         # Cache the data
-        if len(frames_coor) <= 1294:
-            for _ in range(1294 - len(frames_coor)):
+        if len(frames_coor) <= 599:
+            for _ in range(599 - len(frames_coor)):
                 last_frame = frames_coor[-1]
                 frames_coor.append(last_frame)
         else:
@@ -264,15 +264,17 @@ while cap.isOpened():
         # else:
         #     print("non-cheat")
 
-        prediction_value = prediction[0][0] * 100
+        prediction_value = prediction[0][1] * 100
         
         
-        count += 6  
+        count += 1  
 
     currentFrame += 1  
 
     if prediction_value < 50:
         cv2.putText(img, f'Cheat Rate: {round(prediction_value, 3)}%', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+    # elif 50 <= prediction_value < 70:    
+    #     cv2.putText(img, f'Cheat Rate: {round(prediction_value, 3)}%', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 0), 2, cv2.LINE_AA)
     else:
         cv2.putText(img, f'Cheat Rate: {round(prediction_value, 3)}%', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
             
