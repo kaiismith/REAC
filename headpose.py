@@ -27,7 +27,7 @@ face_mesh = mp_face_mesh.FaceMesh(static_image_mode=False,
     refine_landmarks=True,
     max_num_faces=1,
     min_detection_confidence=0.5)
-cap = cv2.VideoCapture("CHEAT 119.mp4")
+cap = cv2.VideoCapture("CHEAT 236.mp4")
 
 face_3d = np.array([
     [0.0, 0.0, 0.0],            # Nose tip
@@ -273,14 +273,15 @@ while cap.isOpened():
 
     if prediction_value < 50:
         cv2.putText(img, f'Cheat Rate: {round(prediction_value, 3)}%', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
-    # elif 50 <= prediction_value < 70:    
-    #     cv2.putText(img, f'Cheat Rate: {round(prediction_value, 3)}%', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 0), 2, cv2.LINE_AA)
+    elif 50 <= prediction_value < 70:    
+        cv2.putText(img, f'Cheat Rate: {round(prediction_value, 3)}%', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 0), 2, cv2.LINE_AA)
     else:
         cv2.putText(img, f'Cheat Rate: {round(prediction_value, 3)}%', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
             
-
+    i = 1
     cv2.imshow('Head Pose Estimation', img)
-
+    cv2.imwrite(f'frames_cheat/frame {count - 1}.jpg', img)
+    i += 1
     if cv2.waitKey(5) & 0xFF == ord('q'):
         break
 
