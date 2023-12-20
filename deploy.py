@@ -19,7 +19,7 @@ class GP038:
 class GP046:
     def __init__(self):
         try:
-            self.__model = tf.keras.models.load_model('./GP046.keras')
+            self.__model = tf.keras.models.load_model('GP046.keras')
             print("Model loaded")
             self.__model.summary()
         except:
